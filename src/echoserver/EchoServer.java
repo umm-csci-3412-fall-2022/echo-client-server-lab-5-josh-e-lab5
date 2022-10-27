@@ -29,6 +29,7 @@ public class EchoServer {
 	// Reads the input stream and puts the stream into the output
 	while ((NextByte = input.read()) != -1) {
 	  output.write(NextByte);
+	  output.flush();
 	}
 	
 	// Close the Communications between Server and Client

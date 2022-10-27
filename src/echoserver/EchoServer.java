@@ -1,4 +1,8 @@
+
 package echoserver;
+
+import java.net.*;
+import java.io.*;
 
 public class EchoServer {
 
@@ -8,7 +12,7 @@ public class EchoServer {
   
     try {
       // Create a server socket for communication link between client and server
-      ServerSocket socket = new ServerSocket(PORT_NUMBER);
+      ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
 
       while(true) {
 	// Create the socket to communicate between server and client
@@ -19,13 +23,24 @@ public class EchoServer {
 	// Grab the output stream connected to the input of the client communication socket
 	OutputStream output = clientSocketConnection.getOutputStream();
 
-	// Reads the input stream and puts the stream into the output
-	input.transferTo(output);
+	// Create variable to track the bytes being redirected
+	int NextByte = 0;
 
+	// Reads the input stream and puts the stream into the output
+	while ((NextByte = input.read()) != -1) {
+	  output.write(NextByte);
+	}
+	
+	// Close the Communications between Server and Client
 	input.close();
 	output.close();
 	clientSocketConnection.close();
       }
+    } catch (IOException exception) {
+	// Print out exception error if caught exception
+        System.err.println("Exception caught: " + exception);
     }
   }
 }
+
+
